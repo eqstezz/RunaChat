@@ -112,6 +112,32 @@
         .message-sender-badge { font-size:0.55em; padding:2px 6px; border-radius:8px; font-weight:700; line-height:1.2; display:inline-flex; align-items:center; }
         .message-sender-badge.console { background:rgba(255,0,0,0.2); border:1px solid var(--console-red); color:var(--console-red); }
         .message-text { font-size:0.85em; }
+        .custom-gradient-text {
+            display:inline-block;
+            max-width:100%;
+            color:var(--neon-bright);
+            background-repeat:no-repeat;
+            background-size:300% 300%;
+            will-change:background-position,filter;
+            animation-name:devMessageGradient;
+            animation-timing-function:ease-in-out;
+            animation-iteration-count:infinite;
+        }
+        @supports ((-webkit-background-clip:text) or (background-clip:text)) {
+            .custom-gradient-text {
+                -webkit-background-clip:text !important;
+                background-clip:text !important;
+                -webkit-text-fill-color:transparent;
+                color:transparent;
+            }
+        }
+        @keyframes devMessageGradient {
+            0%{background-position:0% 50%;filter:drop-shadow(0 0 4px rgba(255,0,0,0.5))}
+            25%{background-position:100% 0%;filter:drop-shadow(0 0 8px rgba(255,50,50,0.8))}
+            50%{background-position:100% 100%;filter:drop-shadow(0 0 12px rgba(255,0,0,1))}
+            75%{background-position:0% 100%;filter:drop-shadow(0 0 8px rgba(255,50,50,0.8))}
+            100%{background-position:0% 50%;filter:drop-shadow(0 0 4px rgba(255,0,0,0.5))}
+        }
         .message-meta { font-size:0.55em; color:var(--text-dim); text-align:right; }
         .system-message { text-align:center; font-size:0.65em; color:var(--text-dim); padding:5px; }
         .input-area { padding:10px 14px; border-top:1px solid var(--border); display:flex; gap:6px; background:var(--glass); align-items:center; position:relative; }
@@ -158,6 +184,177 @@
         .modal-close { position:absolute; top:10px; right:10px; background:rgba(15,0,0,0.9); border:1px solid var(--border); color:var(--text-dim); width:30px; height:30px; border-radius:50%; cursor:pointer; font-size:0.9em; display:flex; align-items:center; justify-content:center; z-index:5; }
         .modal-close:hover { border-color:var(--neon-red); color:var(--neon-red); }
         .modal-title { font-family:'Orbitron',monospace; font-size:0.85em; color:var(--neon-red); text-align:center; letter-spacing:2px; }
+
+
+
+        /* Console commands modal — visual-only neon redesign */
+        #commandsModal {
+            background:rgba(0,0,0,0.92);
+            backdrop-filter:blur(12px);
+        }
+        #commandsModalContent {
+            width:min(94%, 470px);
+            max-width:470px;
+            max-height:90vh;
+            padding:24px 18px 22px;
+            gap:18px;
+            border:1px solid rgba(255,35,35,0.78);
+            border-radius:20px;
+            background:
+                linear-gradient(180deg,rgba(28,0,0,0.98),rgba(10,0,0,0.99)),
+                radial-gradient(circle at 50% 0%,rgba(255,0,0,0.14),transparent 45%);
+            box-shadow:
+                0 0 0 1px rgba(255,0,0,0.10) inset,
+                0 0 18px rgba(255,0,0,0.28),
+                0 0 55px rgba(120,0,0,0.35);
+            scrollbar-width:thin;
+            scrollbar-color:rgba(255,40,40,0.65) rgba(30,0,0,0.7);
+        }
+        #commandsModalContent::-webkit-scrollbar { width:6px; }
+        #commandsModalContent::-webkit-scrollbar-track { background:rgba(30,0,0,0.7); border-radius:10px; }
+        #commandsModalContent::-webkit-scrollbar-thumb { background:linear-gradient(#ff5555,#a90000); border-radius:10px; box-shadow:0 0 8px rgba(255,0,0,0.55); }
+        #commandsModalContent::before {
+            content:'';
+            position:absolute;
+            top:0;
+            left:8%;
+            right:8%;
+            height:1px;
+            background:linear-gradient(90deg,transparent,#ff2525,#ff7777,#ff2525,transparent);
+            box-shadow:0 0 12px rgba(255,0,0,0.8);
+            pointer-events:none;
+        }
+        #commandsModalContent .modal-title {
+            padding:3px 48px 12px;
+            font-family:'Orbitron',monospace;
+            font-size:0.92em;
+            font-weight:900;
+            letter-spacing:3px;
+            color:#ff5555;
+            text-shadow:0 0 6px rgba(255,50,50,0.9),0 0 18px rgba(255,0,0,0.55);
+            border-bottom:1px solid rgba(255,45,45,0.25);
+        }
+        #commandsModalContent .modal-close {
+            top:12px;
+            right:12px;
+            width:38px;
+            height:38px;
+            border:1px solid rgba(255,60,60,0.5);
+            background:radial-gradient(circle,rgba(65,0,0,0.9),rgba(15,0,0,0.96));
+            color:#ff7777;
+            font-size:1.05em;
+            box-shadow:0 0 12px rgba(255,0,0,0.22), inset 0 0 10px rgba(255,0,0,0.08);
+            transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease,color .25s ease;
+        }
+        #commandsModalContent .modal-close:hover {
+            transform:rotate(90deg) scale(1.06);
+            border-color:#ff4444;
+            color:#fff;
+            box-shadow:0 0 18px rgba(255,0,0,0.65),inset 0 0 12px rgba(255,0,0,0.18);
+        }
+        #commandsGrid {
+            display:flex;
+            flex-direction:column;
+            gap:18px;
+        }
+        #commandsGrid > div {
+            display:flex;
+            flex-direction:column;
+            gap:7px;
+        }
+        #commandsGrid .command-category-title {
+            display:flex;
+            align-items:center;
+            gap:10px;
+            padding:0 3px 7px;
+            font-family:'Orbitron',monospace;
+            font-size:0.68em;
+            font-weight:900;
+            letter-spacing:3px;
+            text-transform:uppercase;
+            color:#ff6666;
+            text-shadow:0 0 7px rgba(255,30,30,0.75);
+        }
+        #commandsGrid .command-category-title::after {
+            content:'';
+            flex:1;
+            height:1px;
+            margin-left:4px;
+            background:linear-gradient(90deg,rgba(255,35,35,0.8),rgba(255,35,35,0.08));
+            box-shadow:0 0 7px rgba(255,0,0,0.35);
+        }
+        #commandsGrid .command-item {
+            position:relative;
+            display:grid;
+            grid-template-columns:minmax(0,1fr) minmax(105px,0.9fr) 14px;
+            align-items:center;
+            gap:10px;
+            min-height:54px;
+            padding:11px 12px 11px 15px;
+            overflow:hidden;
+            cursor:pointer;
+            border:1px solid rgba(255,35,35,0.55);
+            border-radius:13px;
+            background:
+                linear-gradient(100deg,rgba(80,0,0,0.34),rgba(30,0,0,0.65) 60%,rgba(70,0,0,0.28)),
+                rgba(12,0,0,0.88);
+            box-shadow:inset 0 0 14px rgba(255,0,0,0.05),0 0 8px rgba(255,0,0,0.08);
+            transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease,background .2s ease;
+        }
+        #commandsGrid .command-item::before {
+            content:'';
+            position:absolute;
+            left:0;
+            top:10px;
+            bottom:10px;
+            width:2px;
+            border-radius:3px;
+            background:#ff3939;
+            box-shadow:0 0 10px rgba(255,0,0,0.9);
+        }
+        #commandsGrid .command-item::after {
+            content:'›';
+            color:rgba(255,80,80,0.8);
+            font-family:'JetBrains Mono',monospace;
+            font-size:1.55em;
+            line-height:1;
+            text-shadow:0 0 7px rgba(255,0,0,0.55);
+            transition:transform .2s ease,color .2s ease;
+        }
+        #commandsGrid .command-item:hover {
+            transform:translateX(3px);
+            border-color:#ff3b3b;
+            background:linear-gradient(100deg,rgba(120,0,0,0.48),rgba(38,0,0,0.78) 62%,rgba(90,0,0,0.34));
+            box-shadow:inset 0 0 18px rgba(255,0,0,0.09),0 0 16px rgba(255,0,0,0.24);
+        }
+        #commandsGrid .command-item:hover::after { transform:translateX(2px); color:#ff7777; }
+        #commandsGrid .command-name {
+            min-width:0;
+            font-family:'JetBrains Mono',monospace;
+            font-size:0.78em;
+            font-weight:700;
+            color:#ff4f4f;
+            text-shadow:0 0 5px rgba(255,25,25,0.5);
+            overflow-wrap:anywhere;
+        }
+        #commandsGrid .command-desc {
+            min-width:0;
+            font-size:0.67em;
+            font-weight:500;
+            line-height:1.35;
+            text-align:right;
+            color:#d5aaaa;
+            overflow-wrap:anywhere;
+        }
+        @media (max-width:540px) {
+            #commandsModalContent { width:96%; padding:20px 13px 18px; border-radius:17px; }
+            #commandsModalContent .modal-title { font-size:0.74em; letter-spacing:2.3px; padding-left:30px; padding-right:44px; }
+            #commandsGrid { gap:16px; }
+            #commandsGrid .command-category-title { font-size:0.6em; letter-spacing:2.2px; }
+            #commandsGrid .command-item { grid-template-columns:minmax(0,1.05fr) minmax(90px,0.95fr) 10px; min-height:51px; padding:10px 9px 10px 13px; gap:7px; }
+            #commandsGrid .command-name { font-size:0.7em; }
+            #commandsGrid .command-desc { font-size:0.59em; }
+        }
 
         .profile-stats { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; width:100%; margin-top:12px; }
         .stat-card { background:rgba(15,0,0,0.7); border:1px solid var(--border); border-radius:10px; padding:14px 18px; text-align:center; flex:1; min-width:80px; }
@@ -281,7 +478,8 @@
             document.getElementById('animSpeedLabel').textContent = speed + 's';
             const preview = document.getElementById('gradientPreview');
             preview.style.background = `linear-gradient(${angle}, ${c1}, ${c2}, ${c3})`;
-            preview.style.backgroundSize = '200% 200%';
+            preview.style.backgroundSize = '300% 300%';
+            preview.style.backgroundRepeat = 'no-repeat';
             preview.style.animationDuration = speed + 's';
             preview.style.fontWeight = fw;
             preview.style.backgroundClip = 'text';
@@ -488,7 +686,7 @@
             if (!currentRoom || !currentUser || !t) return;
             const m = getMessages();
             if (!m[currentRoom]) m[currentRoom] = [];
-            const useCustomStyle = isDev && (devMsgSettings.color1 !== '#ff1a1a' || devMsgSettings.color2 !== '#ff4444' || devMsgSettings.angle !== '135deg' || devMsgSettings.fontWeight !== '700');
+            const useCustomStyle = isDev;
             const msgData = { type: 'message', sender: currentUser, text: t, time: Date.now(), is_dev: isDev };
             if (useCustomStyle) {
                 msgData.custom_style = {
@@ -575,20 +773,12 @@
                     // Проверяем кастомный стиль (для своих сообщений И для сообщений разработчика от других)
                     if (m.custom_style) {
                         const cs = m.custom_style;
-                        const animName = 'devMsgGlow_' + (m.time || Date.now());
-                        const styleEl = document.createElement('style');
-                        styleEl.textContent = `@keyframes ${animName} { 0%{background-position:0% 50%;filter:drop-shadow(0 0 4px rgba(255,0,0,0.5))} 25%{background-position:100% 0%;filter:drop-shadow(0 0 8px rgba(255,50,50,0.8))} 50%{background-position:100% 100%;filter:drop-shadow(0 0 12px rgba(255,0,0,1))} 75%{background-position:0% 100%;filter:drop-shadow(0 0 8px rgba(255,50,50,0.8))} 100%{background-position:0% 50%;filter:drop-shadow(0 0 4px rgba(255,0,0,0.5))} }`;
-                        document.head.appendChild(styleEl);
-                        textHTML = `<div class="message-text" style="background:linear-gradient(${cs.angle}, ${cs.color1}, ${cs.color2}, ${cs.color3});background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:${cs.fontWeight};animation:${animName} ${cs.animSpeed}s ease-in-out infinite;">${escapeHtml(m.text)}</div>`;
+                        textHTML = `<div class="message-text custom-gradient-text" style="background-image:linear-gradient(${cs.angle}, ${cs.color1}, ${cs.color2}, ${cs.color3});font-weight:${cs.fontWeight};animation-duration:${cs.animSpeed}s;">${escapeHtml(m.text)}</div>`;
                     }
                     // Если это НАШЕ сообщение и мы разработчик — тоже применяем стиль из настроек
                     else if (isMine && isDev && (devMsgSettings.color1 !== '#ff1a1a' || devMsgSettings.color2 !== '#ff4444' || devMsgSettings.angle !== '135deg' || devMsgSettings.fontWeight !== '700')) {
                         const s = devMsgSettings;
-                        const animName = 'devMsgGlow_' + (m.time || Date.now());
-                        const styleEl = document.createElement('style');
-                        styleEl.textContent = `@keyframes ${animName} { 0%{background-position:0% 50%;filter:drop-shadow(0 0 4px rgba(255,0,0,0.5))} 25%{background-position:100% 0%;filter:drop-shadow(0 0 8px rgba(255,50,50,0.8))} 50%{background-position:100% 100%;filter:drop-shadow(0 0 12px rgba(255,0,0,1))} 75%{background-position:0% 100%;filter:drop-shadow(0 0 8px rgba(255,50,50,0.8))} 100%{background-position:0% 50%;filter:drop-shadow(0 0 4px rgba(255,0,0,0.5))} }`;
-                        document.head.appendChild(styleEl);
-                        textHTML = `<div class="message-text" style="background:linear-gradient(${s.angle}, ${s.color1}, ${s.color2}, ${s.color3});background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:${s.fontWeight};animation:${animName} ${s.animSpeed}s ease-in-out infinite;">${escapeHtml(m.text)}</div>`;
+                        textHTML = `<div class="message-text custom-gradient-text" style="background-image:linear-gradient(${s.angle}, ${s.color1}, ${s.color2}, ${s.color3});font-weight:${s.fontWeight};animation-duration:${s.animSpeed}s;">${escapeHtml(m.text)}</div>`;
                     }
 
                     md.innerHTML = `${sl}${textHTML}<div class="message-meta">${new Date(m.time).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}${isMine?' ✓':''}</div>`;
