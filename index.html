@@ -235,6 +235,9 @@
     <div class="modal-overlay" id="userProfileModal" onclick="closeUserProfileModal(event)"><div class="modal-container" id="userProfileModalContent" onclick="event.stopPropagation()"></div></div>
     <input type="file" id="avatarFileInput" accept="image/*" style="display:none;" onchange="handleAvatarUpload(event)">
 
+    <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-database-compat.js"></script>
+    <script src="firebase-config.js"></script>
     <script>
         const STORAGE_KEY = 'runachat_local_';
         const DEV_NAME = 'Bot'; const DEV_PASSWORD = 'vzlom'; const CONSOLE_CODE = 'VGX233';
@@ -306,8 +309,63 @@
         function startHackerBg() { const c = document.getElementById('hackerBg'); if (!c) return; c.innerHTML = ''; const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン!@#$%^&*()_+-=[]{}|;:,.<>?/~`'; for (let i = 0; i < 45; i++) { const s = document.createElement('span'); s.className = 'hacker-char'; s.textContent = chars[Math.floor(Math.random() * chars.length)]; s.style.left = Math.random() * 100 + '%'; s.style.fontSize = (Math.random() * 0.7 + 0.5) + 'em'; s.style.animationDuration = (Math.random() * 7 + 5) + 's'; s.style.animationDelay = Math.random() * 5 + 's'; c.appendChild(s); } }
         function stopHackerBg() { const c = document.getElementById('hackerBg'); if (c) c.innerHTML = ''; if (hackerInterval) clearInterval(hackerInterval); hackerInterval = null; }
 
-        function saveData(k, d) { localStorage.setItem(STORAGE_KEY + k, JSON.stringify(d)); }
-        function loadData(k) { const r = localStorage.getItem(STORAGE_KEY + k); return r ? JSON.parse(r) : null; }
+        let onlineData = {};
+        let firebaseDb = null;
+        let firebaseReady = false;
+        let appInitialized = false;
+
+        function saveData(k, d) {
+            onlineData[k] = d;
+            if (!firebaseReady || !firebaseDb) return;
+            firebaseDb.ref('runachat/' + k).set(d).catch(err => {
+                console.error('Firebase save error:', err);
+                showToast('❌ Ошибка сохранения в облако', 'error');
+            });
+        }
+        function loadData(k) { return onlineData[k] ?? null; }
+
+        function refreshFromCloud() {
+            if (!appInitialized) return;
+            if (currentRoom) refreshChat();
+            if (currentTab === 'public') refreshPublicRooms();
+            if (currentTab === 'profile' && currentUser) renderProfile();
+            if (currentTab === 'search') handleSearchInput();
+            if (consoleUnlocked) updateConsoleRoomSelect();
+        }
+
+        function connectFirebase() {
+            return new Promise((resolve, reject) => {
+                if (!window.RUNACHAT_FIREBASE_CONFIG || !RUNACHAT_FIREBASE_CONFIG.apiKey || RUNACHAT_FIREBASE_CONFIG.apiKey.includes('PASTE_')) {
+                    reject(new Error('Firebase config is not filled'));
+                    return;
+                }
+                try {
+                    firebase.initializeApp(RUNACHAT_FIREBASE_CONFIG);
+                    firebaseDb = firebase.database();
+                    const rootRef = firebaseDb.ref('runachat');
+                    let firstLoad = true;
+                    rootRef.on('value', snapshot => {
+                        onlineData = snapshot.val() || {};
+                        if (firstLoad) {
+                            firstLoad = false;
+                            firebaseReady = true;
+                            document.getElementById('serverStatusText').textContent = 'Онлайн';
+                            resolve();
+                        } else {
+                            refreshFromCloud();
+                        }
+                    }, error => {
+                        console.error('Firebase connection error:', error);
+                        document.getElementById('serverStatusText').textContent = 'Ошибка базы';
+                        if (firstLoad) reject(error);
+                    });
+                    firebase.database().ref('.info/connected').on('value', snap => {
+                        const connected = snap.val() === true;
+                        document.getElementById('serverStatusText').textContent = connected ? 'Онлайн' : 'Переподключение...';
+                    });
+                } catch (error) { reject(error); }
+            });
+        }
         function getUsers() { return loadData('users') || {}; }
         function saveUsers(u) { saveData('users', u); }
         function getRooms() { return loadData('rooms') || {}; }
@@ -552,8 +610,13 @@
 
         function enterMainApp() { document.getElementById('authScreen').classList.remove('active'); document.getElementById('authScreen').style.display = 'none'; document.getElementById('mainAppScreen').classList.add('active'); document.getElementById('mainAppScreen').style.display = 'flex'; loadDevMsgSettings(); updateUserUI(); updateOnlineStatus(currentUser); switchTab('join'); const sr = localStorage.getItem('runachat_room'); if (sr) { const r = getRooms(); if (r[sr]) { currentRoom = sr; openChatScreen(r[sr].is_public || false); } else { localStorage.removeItem('runachat_room'); } } }
 
-        function init() { initDevAccount(); loadDevMsgSettings(); const restored = restoreSession(); if (restored) { enterMainApp(); return; } document.getElementById('authScreen').classList.add('active'); document.getElementById('authScreen').style.display = 'flex'; document.getElementById('loginIdentifier').addEventListener('keypress', function(e) { if (e.key === 'Enter') document.getElementById('loginPassword').focus(); }); document.getElementById('loginPassword').addEventListener('keypress', function(e) { if (e.key === 'Enter') login(); }); document.getElementById('devUsername').addEventListener('keypress', function(e) { if (e.key === 'Enter') document.getElementById('devPassword').focus(); }); document.getElementById('devPassword').addEventListener('keypress', function(e) { if (e.key === 'Enter') devLogin(); }); }
-        init();
+        function init() { appInitialized = true; initDevAccount(); loadDevMsgSettings(); const restored = restoreSession(); if (restored) { enterMainApp(); return; } document.getElementById('authScreen').classList.add('active'); document.getElementById('authScreen').style.display = 'flex'; document.getElementById('loginIdentifier').addEventListener('keypress', function(e) { if (e.key === 'Enter') document.getElementById('loginPassword').focus(); }); document.getElementById('loginPassword').addEventListener('keypress', function(e) { if (e.key === 'Enter') login(); }); document.getElementById('devUsername').addEventListener('keypress', function(e) { if (e.key === 'Enter') document.getElementById('devPassword').focus(); }); document.getElementById('devPassword').addEventListener('keypress', function(e) { if (e.key === 'Enter') devLogin(); }); }
+        document.getElementById('serverStatusText').textContent = 'Подключение...';
+        connectFirebase().then(init).catch(error => {
+            console.error(error);
+            document.getElementById('serverStatusText').textContent = 'Нужна настройка';
+            showToast('❌ Проверь firebase-config.js и настройки базы', 'error');
+        });
     </script>
 </body>
 </html>
