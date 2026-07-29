@@ -81,14 +81,14 @@
 
         .crown-icon { display:inline-flex; font-size:1em; filter:drop-shadow(0 0 6px rgba(255,0,0,0.8)) drop-shadow(0 0 12px rgba(200,0,0,0.5)); animation:crownGlow 2s ease-in-out infinite; }
         @keyframes crownGlow { 0%,100%{filter:drop-shadow(0 0 6px rgba(255,0,0,0.8))} 50%{filter:drop-shadow(0 0 14px rgba(255,0,0,1))} }
-        .verified-check { display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%; background:linear-gradient(135deg,#ff4444,#cc0000); color:#fff; font-size:0.55em; font-weight:900; box-shadow:0 0 10px rgba(255,0,0,0.7); margin-left:8px; }
+        .verified-check { display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; border-radius:50%; background:linear-gradient(135deg,#ff4444,#cc0000); color:#fff; font-size:0.55em; font-weight:900; box-shadow:0 0 8px rgba(255,0,0,0.6); margin-left:6px; }
         .user-info-bar { display:flex; align-items:center; justify-content:space-between; padding:8px 16px; background:rgba(15,0,0,0.6); border-bottom:1px solid var(--border); gap:8px; cursor:pointer; }
-        .user-info-left { display:flex; align-items:center; gap:10px; }
-        .user-avatar { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.9em; font-weight:bold; background-size:cover; background-position:center; overflow:hidden; flex-shrink:0; }
+        .user-info-left { display:flex; align-items:center; gap:8px; }
+        .user-avatar { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.85em; font-weight:bold; background-size:cover; background-position:center; overflow:hidden; }
         .user-avatar img { width:100%; height:100%; object-fit:cover; }
         .user-avatar.dev { background:linear-gradient(135deg,var(--crown-red),var(--crown-glow-red)); }
         .user-avatar.user { background:linear-gradient(135deg,var(--neon-red),var(--neon-pink)); }
-        .user-avatar.large { width:72px; height:72px; font-size:2em; }
+        .user-avatar.large { width:64px; height:64px; font-size:1.8em; }
         .chat-header { padding:12px 16px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:var(--glass); gap:8px; }
         .room-info { display:flex; align-items:center; gap:8px; flex:1; }
         .room-icon { width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg,var(--neon-red),var(--neon-pink)); display:flex; align-items:center; justify-content:center; font-size:1.1em; }
@@ -101,7 +101,7 @@
         .message-wrapper { display:flex; gap:6px; align-items:flex-end; max-width:90%; }
         .message-wrapper.sent { align-self:flex-end; flex-direction:row-reverse; }
         .message-wrapper.received { align-self:flex-start; }
-        .message-avatar { width:28px; height:28px; border-radius:50%; background-size:cover; background-position:center; flex-shrink:0; cursor:pointer; transition:all 0.25s; display:flex; align-items:center; justify-content:center; font-size:0.7em; font-weight:bold; background:linear-gradient(135deg,var(--neon-red),var(--neon-pink)); border:1px solid rgba(255,255,255,0.1); overflow:hidden; }
+        .message-avatar { width:26px; height:26px; border-radius:50%; background-size:cover; background-position:center; flex-shrink:0; cursor:pointer; transition:all 0.25s; display:flex; align-items:center; justify-content:center; font-size:0.65em; font-weight:bold; background:linear-gradient(135deg,var(--neon-red),var(--neon-pink)); border:1px solid rgba(255,255,255,0.1); overflow:hidden; }
         .message-avatar img { width:100%; height:100%; object-fit:cover; }
         .message-avatar:hover { transform:scale(1.2); box-shadow:0 0 12px rgba(255,0,0,0.5); z-index:2; }
         .message-sender-name { font-size:0.65em; color:var(--neon-pink); }
@@ -120,13 +120,13 @@
 
         .dev-msg-settings-btn { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:transparent; border:1px solid rgba(255,193,7,0.5); color:var(--crown-red); cursor:pointer; font-size:1.2em; transition:all 0.3s; margin-left:4px; }
         .dev-msg-settings-btn:hover { border-color:var(--crown-red); box-shadow:0 0 15px rgba(255,0,0,0.4); }
-        .dev-msg-settings-panel { display:none; position:absolute; bottom:60px; right:10px; background:rgba(15,0,0,0.97); border:1px solid var(--border); border-radius:var(--radius); padding:16px; z-index:100; width:280px; max-height:400px; overflow-y:auto; box-shadow:0 0 30px rgba(255,0,0,0.4); flex-direction:column; gap:10px; }
+        .dev-msg-settings-panel { display:none; position:absolute; bottom:60px; right:10px; background:rgba(15,0,0,0.95); border:1px solid var(--border); border-radius:var(--radius); padding:16px; z-index:100; width:280px; max-height:400px; overflow-y:auto; box-shadow:0 0 30px rgba(255,0,0,0.3); flex-direction:column; gap:10px; }
         .dev-msg-settings-panel.active { display:flex; }
         .dev-msg-settings-panel label { font-size:0.6em; color:var(--neon-pink); text-transform:uppercase; letter-spacing:1px; font-family:'Orbitron',monospace; }
         .dev-msg-settings-panel input[type="color"] { width:100%; height:35px; border:none; border-radius:6px; cursor:pointer; background:var(--darker-bg); }
         .dev-msg-settings-panel input[type="range"] { width:100%; accent-color:var(--neon-red); }
         .dev-msg-settings-panel select { width:100%; padding:8px; background:var(--darker-bg); border:1px solid var(--border); color:var(--text); border-radius:6px; font-size:0.7em; outline:none; }
-        .gradient-preview { width:100%; height:30px; border-radius:6px; border:1px solid var(--border); animation:previewAnim 2s linear infinite; display:flex; align-items:center; justify-content:center; font-weight:700; }
+        .gradient-preview { width:100%; height:30px; border-radius:6px; border:1px solid var(--border); animation:previewAnim 2s linear infinite; display:flex; align-items:center; justify-content:center; }
         @keyframes previewAnim { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
 
         .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); padding:10px 20px; border-radius:20px; font-family:'Orbitron',monospace; font-size:0.7em; z-index:999; pointer-events:none; animation:slideDown 0.4s ease, fadeOut 0.4s ease 2.5s forwards; }
@@ -138,49 +138,42 @@
         .divider-line { flex:1; height:1px; background:var(--border); }
         .divider-text { font-family:'Orbitron',monospace; font-size:0.55em; color:var(--text-dim); }
 
-        .console-header-bar { padding:10px 14px; border-bottom:1px solid var(--border); background:rgba(15,0,0,0.95); display:flex; align-items:center; justify-content:space-between; }
+        .console-header-bar { padding:10px 14px; border-bottom:1px solid var(--border); background:rgba(15,0,0,0.9); display:flex; align-items:center; justify-content:space-between; }
         .console-title-text { font-family:'Orbitron',monospace; font-size:0.75em; color:var(--neon-red); letter-spacing:2px; animation:logoGlow 2s ease-in-out infinite; }
         .console-quick-btns { display:flex; gap:5px; padding:6px 10px; border-bottom:1px solid var(--border); flex-wrap:wrap; }
         .console-quick-btns .btn-xs { background:rgba(255,0,0,0.15); border:1px solid rgba(255,0,0,0.3); color:var(--neon-red); padding:4px 8px; font-size:0.5em; letter-spacing:0.5px; border-radius:6px; cursor:pointer; transition:all 0.2s; }
         .console-quick-btns .btn-xs:hover { background:rgba(255,0,0,0.3); border-color:var(--neon-red); box-shadow:0 0 10px rgba(255,0,0,0.3); }
-        .hacker-bg { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; overflow:hidden; opacity:0.12; }
-        .hacker-char { position:absolute; color:var(--neon-red); font-family:'JetBrains Mono',monospace; font-size:0.9em; animation:fall linear infinite; opacity:0.5; text-shadow:0 0 8px rgba(255,0,0,0.6); }
-        @keyframes fall { 0%{transform:translateY(-30px) rotate(0deg);opacity:0.7} 60%{opacity:0.5} 100%{transform:translateY(105vh) rotate(720deg);opacity:0.05} }
-        .console-output-area { flex:1; padding:10px; font-family:'JetBrains Mono',monospace; font-size:0.6em; overflow-y:auto; background:rgba(5,0,0,0.8); border:1px solid var(--border); border-radius:8px; min-height:200px; position:relative; z-index:1; }
-        .console-input-row { padding:8px 10px; border-top:1px solid var(--border); display:flex; gap:5px; background:rgba(10,0,0,0.95); align-items:center; position:relative; z-index:1; }
-        .room-select-row { padding:6px 10px; border-bottom:1px solid var(--border); display:flex; gap:5px; background:rgba(8,0,0,0.85); align-items:center; flex-wrap:wrap; }
+        .hacker-bg { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; overflow:hidden; opacity:0.15; }
+        .hacker-char { position:absolute; color:var(--neon-red); font-family:'JetBrains Mono',monospace; font-size:0.9em; animation:fall linear infinite; opacity:0.6; text-shadow:0 0 6px rgba(255,0,0,0.5); }
+        @keyframes fall { 0%{transform:translateY(-30px) rotate(0deg);opacity:0.7} 60%{opacity:0.5} 100%{transform:translateY(105vh) rotate(360deg);opacity:0.1} }
+        .console-output-area { flex:1; padding:10px; font-family:'JetBrains Mono',monospace; font-size:0.6em; overflow-y:auto; background:rgba(5,0,0,0.7); border:1px solid var(--border); border-radius:8px; min-height:200px; position:relative; z-index:1; }
+        .console-input-row { padding:8px 10px; border-top:1px solid var(--border); display:flex; gap:5px; background:rgba(10,0,0,0.9); align-items:center; position:relative; z-index:1; }
+        .room-select-row { padding:6px 10px; border-bottom:1px solid var(--border); display:flex; gap:5px; background:rgba(8,0,0,0.8); align-items:center; flex-wrap:wrap; }
         .room-select-row select { background:rgba(20,0,0,0.9); border:1px solid var(--border); color:var(--neon-red); padding:5px 8px; border-radius:6px; font-family:'JetBrains Mono',monospace; font-size:0.55em; outline:none; }
         .room-select-row select:focus { border-color:var(--neon-red); }
 
-        .commands-grid { display:flex; flex-direction:column; gap:10px; }
-        .command-category-title { font-family:'Orbitron',monospace; font-size:0.6em; color:var(--neon-red); letter-spacing:2px; margin-bottom:4px; padding-bottom:3px; border-bottom:1px solid rgba(255,0,0,0.2); }
-        .command-item { display:flex; align-items:center; justify-content:space-between; padding:7px 10px; background:rgba(15,0,0,0.6); border:1px solid rgba(255,0,0,0.2); border-radius:8px; cursor:pointer; transition:all 0.2s; gap:8px; margin-bottom:4px; }
-        .command-item:hover { background:rgba(255,0,0,0.2); border-color:var(--neon-red); box-shadow:0 0 10px rgba(255,0,0,0.2); transform:translateX(3px); }
-        .command-name { font-family:'JetBrains Mono',monospace; font-size:0.65em; color:var(--neon-red); white-space:nowrap; }
-        .command-desc { font-size:0.55em; color:var(--text-dim); text-align:right; line-height:1.3; }
-        .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:900; justify-content:center; align-items:center; backdrop-filter:blur(10px); }
+        .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.88); z-index:900; justify-content:center; align-items:center; backdrop-filter:blur(8px); }
         .modal-overlay.active { display:flex; }
-        .modal-container { width:90%; max-width:440px; max-height:85vh; background:var(--panel-bg); border:1px solid var(--border); border-radius:var(--radius); overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:14px; box-shadow:0 0 50px rgba(255,0,0,0.3); position:relative; }
+        .modal-container { width:90%; max-width:440px; max-height:85vh; background:var(--panel-bg); border:1px solid var(--border); border-radius:var(--radius); overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:14px; box-shadow:0 0 50px rgba(255,0,0,0.2); position:relative; }
         .modal-close { position:absolute; top:10px; right:10px; background:rgba(15,0,0,0.9); border:1px solid var(--border); color:var(--text-dim); width:30px; height:30px; border-radius:50%; cursor:pointer; font-size:0.9em; display:flex; align-items:center; justify-content:center; z-index:5; }
         .modal-close:hover { border-color:var(--neon-red); color:var(--neon-red); }
         .modal-title { font-family:'Orbitron',monospace; font-size:0.85em; color:var(--neon-red); text-align:center; letter-spacing:2px; }
-        .profile-stats { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; width:100%; margin-top:16px; }
-        .stat-card { background:rgba(15,0,0,0.8); border:1px solid var(--border); border-radius:12px; padding:16px 20px; text-align:center; flex:1; min-width:80px; transition:all 0.3s; }
-        .stat-card:hover { border-color:var(--neon-red); box-shadow:var(--glow-red); }
-        .stat-value { font-family:'Orbitron',monospace; font-size:1.6em; font-weight:900; background:linear-gradient(135deg,var(--neon-red),var(--neon-pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-        .stat-label { font-size:0.5em; color:var(--text-dim); margin-top:6px; text-transform:uppercase; letter-spacing:1.5px; }
-        .profile-info-card { width:100%; background:rgba(15,0,0,0.8); border:1px solid var(--border); border-radius:var(--radius); padding:18px; }
-        .info-row { display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+
+        .profile-stats { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; width:100%; margin-top:12px; }
+        .stat-card { background:rgba(15,0,0,0.7); border:1px solid var(--border); border-radius:10px; padding:14px 18px; text-align:center; flex:1; min-width:80px; }
+        .stat-value { font-family:'Orbitron',monospace; font-size:1.5em; font-weight:900; background:linear-gradient(135deg,var(--neon-red),var(--neon-pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .stat-label { font-size:0.5em; color:var(--text-dim); margin-top:4px; text-transform:uppercase; letter-spacing:1px; }
+        .profile-info-card { width:100%; background:rgba(15,0,0,0.7); border:1px solid var(--border); border-radius:var(--radius); padding:16px; }
+        .info-row { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
         .info-row:last-child { border-bottom:none; }
-        .info-label { font-size:0.7em; color:var(--text-dim); letter-spacing:0.5px; }
+        .info-label { font-size:0.65em; color:var(--text-dim); }
         .info-value { font-size:0.8em; color:var(--text); font-family:'JetBrains Mono',monospace; }
-        .activity-log { width:100%; background:rgba(15,0,0,0.8); border:1px solid var(--border); border-radius:var(--radius); padding:16px; max-height:200px; overflow-y:auto; }
-        .activity-log h4 { font-family:'Orbitron',monospace; font-size:0.7em; color:var(--neon-red); letter-spacing:2px; margin-bottom:10px; }
-        .activity-item { font-size:0.65em; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.04); color:var(--text-dim); }
-        .activity-item .act-time { color:var(--neon-red); margin-right:8px; }
+        .activity-log { width:100%; background:rgba(15,0,0,0.7); border:1px solid var(--border); border-radius:var(--radius); padding:14px; max-height:180px; overflow-y:auto; }
+        .activity-log h4 { font-family:'Orbitron',monospace; font-size:0.65em; color:var(--neon-red); letter-spacing:2px; margin-bottom:8px; }
+        .activity-item { font-size:0.65em; padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.04); color:var(--text-dim); }
+        .activity-item .act-time { color:var(--neon-red); margin-right:6px; }
         .avatar-edit-wrapper { position:relative; cursor:pointer; display:inline-block; }
-        .avatar-edit-overlay { position:absolute; bottom:2px; right:2px; width:24px; height:24px; border-radius:50%; background:var(--neon-red); display:flex; align-items:center; justify-content:center; font-size:0.65em; cursor:pointer; border:2px solid var(--dark-bg); box-shadow:var(--glow-red); transition:all 0.3s; }
-        .avatar-edit-overlay:hover { background:var(--neon-pink); box-shadow:0 0 15px rgba(255,0,0,0.6); }
+        .avatar-edit-overlay { position:absolute; bottom:0; right:0; width:22px; height:22px; border-radius:50%; background:var(--neon-red); display:flex; align-items:center; justify-content:center; font-size:0.6em; cursor:pointer; border:2px solid var(--dark-bg); box-shadow:var(--glow-red); }
         @media (max-width:540px) { .app-container { height:100vh; max-height:none; border-radius:0; border:none; } .header { padding:10px 14px; } .tab-btn { font-size:0.5em; padding:10px 8px; } .btn { padding:10px 16px; font-size:0.65em; } .dev-msg-settings-panel { width:250px; right:0; } }
     </style>
 </head>
@@ -204,7 +197,7 @@
             </div>
         </div>
         <div class="screen" id="mainAppScreen" style="display:none;">
-            <div class="user-info-bar" onclick="switchTab('profile')"><div class="user-info-left"><div class="user-avatar" id="userAvatar">?</div><div><span id="displayUsername" style="font-family:'Orbitron',monospace;font-size:0.75em;">User</span><span id="verifiedCheck" style="display:none;" class="verified-check">✓</span><span id="userBadge"></span></div></div><button class="btn btn-logout" onclick="event.stopPropagation();logout()">🚪 Выход</button></div>
+            <div class="user-info-bar" onclick="switchTab('profile')"><div class="user-info-left"><div class="user-avatar" id="userAvatar">?</div><div><span id="displayUsername" style="font-family:'Orbitron',monospace;font-size:0.7em;">User</span><span id="verifiedCheck" style="display:none;" class="verified-check">✓</span><span id="userBadge"></span></div></div><button class="btn btn-logout" onclick="event.stopPropagation();logout()">🚪 Выход</button></div>
             <div class="tab-nav" id="tabNav">
                 <button class="tab-btn active" onclick="switchTab('join')">🔗 Подключиться</button>
                 <button class="tab-btn" onclick="switchTab('create')">🆕 Создать</button>
@@ -239,6 +232,7 @@
         </div>
     </div>
     <div class="modal-overlay" id="commandsModal" onclick="closeCommandsModal(event)"><div class="modal-container" id="commandsModalContent" onclick="event.stopPropagation()"><button class="modal-close" onclick="closeCommandsModal()">✕</button><div class="modal-title">📋 КОМАНДЫ КОНСОЛИ</div><div class="commands-grid" id="commandsGrid"></div></div></div>
+    <div class="modal-overlay" id="userProfileModal" onclick="closeUserProfileModal(event)"><div class="modal-container" id="userProfileModalContent" onclick="event.stopPropagation()"></div></div>
     <input type="file" id="avatarFileInput" accept="image/*" style="display:none;" onchange="handleAvatarUpload(event)">
 
     <script>
@@ -263,7 +257,6 @@
 
         function loadDevMsgSettings() { const saved = localStorage.getItem('runachat_dev_msg_settings'); if (saved) { try { const s = JSON.parse(saved); devMsgSettings = { ...devMsgSettings, ...s }; } catch(e) {} } }
         function saveDevMsgSettingsToStorage() { localStorage.setItem('runachat_dev_msg_settings', JSON.stringify(devMsgSettings)); }
-
         function applyDevMsgSettingsToUI() {
             document.getElementById('devGradientColor1').value = devMsgSettings.color1;
             document.getElementById('devGradientColor2').value = devMsgSettings.color2;
@@ -274,9 +267,7 @@
             document.getElementById('animSpeedLabel').textContent = devMsgSettings.animSpeed + 's';
             updateGradientPreview();
         }
-
         function toggleDevMsgSettings() { const panel = document.getElementById('devMsgSettingsPanel'); panel.classList.toggle('active'); if (panel.classList.contains('active')) applyDevMsgSettingsToUI(); }
-
         function updateGradientPreview() {
             const c1 = document.getElementById('devGradientColor1').value;
             const c2 = document.getElementById('devGradientColor2').value;
@@ -294,7 +285,6 @@
             preview.style.webkitBackgroundClip = 'text';
             preview.style.webkitTextFillColor = 'transparent';
         }
-
         function saveDevMsgSettings() {
             devMsgSettings.color1 = document.getElementById('devGradientColor1').value;
             devMsgSettings.color2 = document.getElementById('devGradientColor2').value;
@@ -306,7 +296,6 @@
             document.getElementById('devMsgSettingsPanel').classList.remove('active');
             showToast('✅ Настройки сохранены!', 'success');
         }
-
         function resetDevMsgSettings() {
             devMsgSettings = { color1: '#ff1a1a', color2: '#ff4444', color3: '#ff1a1a', angle: '135deg', fontWeight: '700', animSpeed: '2' };
             saveDevMsgSettingsToStorage(); applyDevMsgSettingsToUI();
@@ -314,7 +303,7 @@
             showToast('🔄 Настройки сброшены', 'info');
         }
 
-        function startHackerBg() { const c = document.getElementById('hackerBg'); if (!c) return; c.innerHTML = ''; const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン!@#$%^&*()_+-=[]{}|;:,.<>?/~`'; for (let i = 0; i < 50; i++) { const s = document.createElement('span'); s.className = 'hacker-char'; s.textContent = chars[Math.floor(Math.random() * chars.length)]; s.style.left = Math.random() * 100 + '%'; s.style.fontSize = (Math.random() * 0.8 + 0.4) + 'em'; s.style.animationDuration = (Math.random() * 8 + 4) + 's'; s.style.animationDelay = Math.random() * 6 + 's'; c.appendChild(s); } }
+        function startHackerBg() { const c = document.getElementById('hackerBg'); if (!c) return; c.innerHTML = ''; const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン!@#$%^&*()_+-=[]{}|;:,.<>?/~`'; for (let i = 0; i < 45; i++) { const s = document.createElement('span'); s.className = 'hacker-char'; s.textContent = chars[Math.floor(Math.random() * chars.length)]; s.style.left = Math.random() * 100 + '%'; s.style.fontSize = (Math.random() * 0.7 + 0.5) + 'em'; s.style.animationDuration = (Math.random() * 7 + 5) + 's'; s.style.animationDelay = Math.random() * 5 + 's'; c.appendChild(s); } }
         function stopHackerBg() { const c = document.getElementById('hackerBg'); if (c) c.innerHTML = ''; if (hackerInterval) clearInterval(hackerInterval); hackerInterval = null; }
 
         function saveData(k, d) { localStorage.setItem(STORAGE_KEY + k, JSON.stringify(d)); }
@@ -343,15 +332,69 @@
         function triggerAvatarUpload() { document.getElementById('avatarFileInput').click(); }
         function handleAvatarUpload(event) { const file = event.target.files[0]; if (!file) return; if (!file.type.startsWith('image/')) { showToast('❌ Только изображения', 'error'); return; } if (file.size > 500 * 1024) { showToast('❌ Максимум 500KB', 'error'); return; } const reader = new FileReader(); reader.onload = function(e) { setUserAvatar(currentUser, e.target.result); updateUserUI(); if (currentTab === 'profile') renderProfile(); showToast('✅ Аватар обновлён!', 'success'); }; reader.readAsDataURL(file); event.target.value = ''; }
 
-        function getAvatarHTML(username) {
+        function getAvatarHTML(username, sizeClass = '') {
             const avatarUrl = getUserAvatar(username);
             const isDevUser = (getUsers()[username.toLowerCase()] || {}).role === 'dev';
             const isConsoleUser = (username === CONSOLE_USERNAME);
             let avClass = ''; if (isConsoleUser) avClass = 'console-av'; else if (isDevUser) avClass = 'dev-av';
-            if (avatarUrl) return `<div class="message-avatar ${avClass}" style="background-image:url('${avatarUrl}');background-size:cover;"></div>`;
+            const onclickAttr = username !== CONSOLE_USERNAME ? `onclick="event.stopPropagation();showUserProfile('${username}')"` : '';
+            if (avatarUrl) return `<div class="message-avatar ${avClass} ${sizeClass}" style="background-image:url('${avatarUrl}');background-size:cover;" ${onclickAttr} title="Открыть профиль"></div>`;
             const letter = isConsoleUser ? '🖥' : (isDevUser ? '👑' : username.charAt(0).toUpperCase());
-            return `<div class="message-avatar ${avClass}">${letter}</div>`;
+            return `<div class="message-avatar ${avClass} ${sizeClass}" ${onclickAttr} title="Открыть профиль">${letter}</div>`;
         }
+
+        function buildProfileHTML(username) {
+            const users = getUsers();
+            const u = users[username.toLowerCase()];
+            if (!u) return '<p style="color:var(--text-dim);text-align:center;">Пользователь не найден</p>';
+            const isDevU = u.role === 'dev';
+            const avatarUrl = getUserAvatar(username);
+            const displayName = getDisplayName(username);
+            const createdDate = new Date(u.created).toLocaleDateString();
+            const online = isUserOnline(username);
+            const activities = getActivities();
+            const userActs = (activities[username] || []).slice(-8).reverse();
+
+            return `
+                <div style="text-align:center;">
+                    <div class="user-avatar large ${isDevU?'dev':'user'}" style="margin:0 auto;">${avatarUrl?`<img src="${avatarUrl}" style="width:100%;height:100%;object-fit:cover;">`:(isDevU?'👑':username.charAt(0).toUpperCase())}</div>
+                    <div style="display:flex;align-items:center;justify-content:center;gap:4px;margin-top:10px;">
+                        <span style="font-family:'Orbitron',monospace;font-size:1.2em;">${escapeHtml(displayName)}</span>
+                        ${isDevU?'<span class="verified-check">✓</span>':''}
+                        ${!isDevU?'<span class="badge badge-user">USER</span>':''}
+                    </div>
+                    ${isDevU?'<div style="margin-top:4px;color:var(--crown-red);font-size:0.7em;">👑 Системный разработчик</div>':''}
+                    <div style="color:${online?'var(--neon-green)':'var(--text-dim)'};font-size:0.65em;margin-top:4px;">${online?'● Онлайн':'○ Офлайн'}</div>
+                    ${displayName !== username ? `<div style="color:var(--text-dim);font-size:0.6em;margin-top:2px;">@${escapeHtml(username)}</div>` : ''}
+                </div>
+                <div class="profile-stats">
+                    <div class="stat-card"><div class="stat-value">${u.total_messages||0}</div><div class="stat-label">Сообщений</div></div>
+                    <div class="stat-card"><div class="stat-value">${u.rooms_created||0}</div><div class="stat-label">Создано</div></div>
+                    <div class="stat-card"><div class="stat-value">${u.rooms_joined||0}</div><div class="stat-label">Подключений</div></div>
+                </div>
+                <div class="profile-info-card">
+                    <div class="info-row"><span class="info-label">Имя</span><span class="info-value">${escapeHtml(displayName)}</span></div>
+                    <div class="info-row"><span class="info-label">Логин</span><span class="info-value">${escapeHtml(username)}</span></div>
+                    <div class="info-row"><span class="info-label">@Username</span><span class="info-value">${u.at_username||'<span style="color:var(--text-dim);">Не задан</span>'}</span></div>
+                    <div class="info-row"><span class="info-label">Телефон</span><span class="info-value">${u.phone||'<span style="color:var(--text-dim);">Не задан</span>'}</span></div>
+                    <div class="info-row"><span class="info-label">Роль</span><span class="info-value">${isDevU?'👑 Разработчик':'👤 Пользователь'}</span></div>
+                    <div class="info-row"><span class="info-label">Дата регистрации</span><span class="info-value">${createdDate}</span></div>
+                </div>
+                <div class="activity-log">
+                    <h4>📜 Последняя активность</h4>
+                    ${userActs.length===0?'<p style="color:var(--text-dim);font-size:0.65em;text-align:center;">Нет активности</p>':userActs.map(a=>{const t=new Date(a.time);return`<div class="activity-item"><span class="act-time">[${t.toLocaleDateString()} ${t.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}]</span> ${escapeHtml(a.action)}: ${escapeHtml(a.detail)}</div>`;}).join('')}
+                </div>`;
+        }
+
+        function showUserProfile(username) {
+            if (username === currentUser) { switchTab('profile'); return; }
+            if (username === CONSOLE_USERNAME) { showToast('🖥 Это системная консоль', 'info'); return; }
+            const modal = document.getElementById('userProfileModal');
+            const content = document.getElementById('userProfileModalContent');
+            content.innerHTML = `<button class="modal-close" onclick="closeUserProfileModal()">✕</button>` + buildProfileHTML(username);
+            modal.classList.add('active');
+        }
+        function closeUserProfileModal(event) { if (event && event.target !== document.getElementById('userProfileModal')) return; document.getElementById('userProfileModal').classList.remove('active'); }
 
         function initDevAccount() { const u = getUsers(); const dk = DEV_NAME.toLowerCase(); if (!u[dk]) { u[dk] = { username: DEV_NAME, password: DEV_PASSWORD, role: 'dev', created: Date.now(), total_messages: 0, rooms_created: 0, rooms_joined: 0, phone: '+88800011', at_username: '@bot' }; saveUsers(u); } if (u[dk] && u[dk].password !== DEV_PASSWORD) { u[dk].password = DEV_PASSWORD; saveUsers(u); } }
         function logActivity(un, ac, de) { const a = getActivities(); if (!a[un]) a[un] = []; a[un].push({ time: Date.now(), action: ac, detail: de }); if (a[un].length > 50) a[un] = a[un].slice(-50); saveActivities(a); }
@@ -381,12 +424,32 @@
         function leaveRoom() { if (currentRoom) { addSystemMessage(currentRoom, `⬡ ${getDisplayName(currentUser)} отключился`); } currentRoom = ''; localStorage.removeItem('runachat_room'); document.getElementById('messageInput').value = ''; goHome(); showToast('Вы вышли из комнаты', 'info'); }
         function leaveRoomSilent() { currentRoom = ''; localStorage.removeItem('runachat_room'); }
         function addSystemMessage(rid, text) { const m = getMessages(); if (!m[rid]) m[rid] = []; m[rid].push({ type: 'system', text, time: Date.now() }); saveMessages(m); }
-        function sendMessage() { const t = document.getElementById('messageInput').value.trim(); if (!currentRoom || !currentUser || !t) return; const m = getMessages(); if (!m[currentRoom]) m[currentRoom] = []; const useCustomStyle = isDev && (devMsgSettings.color1 !== '#ff1a1a' || devMsgSettings.color2 !== '#ff4444' || devMsgSettings.angle !== '135deg' || devMsgSettings.fontWeight !== '700'); const msgData = { type: 'message', sender: currentUser, text: t, time: Date.now(), is_dev: isDev }; if (useCustomStyle) { msgData.custom_style = { color1: devMsgSettings.color1, color2: devMsgSettings.color2, color3: devMsgSettings.color3, angle: devMsgSettings.angle, fontWeight: devMsgSettings.fontWeight, animSpeed: devMsgSettings.animSpeed }; } m[currentRoom].push(msgData); if (m[currentRoom].length > 200) m[currentRoom] = m[currentRoom].slice(-200); saveMessages(m); const u = getUsers(); const uk = currentUser.toLowerCase(); if (u[uk]) u[uk].total_messages++; saveUsers(u); updateOnlineStatus(currentUser); document.getElementById('messageInput').value = ''; refreshChat(); document.getElementById('messageInput').focus(); }
+
+        function sendMessage() {
+            const t = document.getElementById('messageInput').value.trim();
+            if (!currentRoom || !currentUser || !t) return;
+            const m = getMessages();
+            if (!m[currentRoom]) m[currentRoom] = [];
+            const useCustomStyle = isDev && (devMsgSettings.color1 !== '#ff1a1a' || devMsgSettings.color2 !== '#ff4444' || devMsgSettings.angle !== '135deg' || devMsgSettings.fontWeight !== '700');
+            const msgData = { type: 'message', sender: currentUser, text: t, time: Date.now(), is_dev: isDev };
+            if (useCustomStyle) {
+                msgData.custom_style = {
+                    color1: devMsgSettings.color1, color2: devMsgSettings.color2, color3: devMsgSettings.color3,
+                    angle: devMsgSettings.angle, fontWeight: devMsgSettings.fontWeight, animSpeed: devMsgSettings.animSpeed
+                };
+            }
+            m[currentRoom].push(msgData);
+            if (m[currentRoom].length > 200) m[currentRoom] = m[currentRoom].slice(-200);
+            saveMessages(m);
+            const u = getUsers(); const uk = currentUser.toLowerCase(); if (u[uk]) u[uk].total_messages++; saveUsers(u);
+            updateOnlineStatus(currentUser);
+            document.getElementById('messageInput').value = ''; refreshChat(); document.getElementById('messageInput').focus();
+        }
+
         function refreshChat() { if (!currentRoom) return; const m = getMessages(); renderMessages(m[currentRoom] || []); }
         function refreshPublicRooms() { const r = getRooms(); const c = document.getElementById('publicRoomsList'); const pr = Object.values(r).filter(x => x.is_public); if (pr.length === 0) { c.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-dim);">🌐 Нет публичных комнат</div>'; return; } c.innerHTML = pr.map(rm => `<div class="public-room-card" onclick="joinPublicRoom('${rm.room_id}')"><div><div style="font-family:'Orbitron',monospace;font-size:0.7em;color:var(--neon-red);">🏠 ${escapeHtml(rm.room_id)}</div><div style="font-size:0.55em;color:var(--text-dim);">от ${escapeHtml(rm.creator)}</div></div><span class="badge badge-public">ОТКРЫТА</span></div>`).join(''); }
-        function handleSearchInput() { const q = document.getElementById('searchInput').value.toLowerCase().trim(); const c = document.getElementById('searchResults'); if (!q || q.length < 1) { c.style.display = 'none'; c.innerHTML = ''; return; } const u = getUsers(); const r = []; for (const k in u) { if (k === currentUser.toLowerCase()) continue; const x = u[k]; if (x.username.toLowerCase().includes(q) || (x.at_username && x.at_username.toLowerCase().includes(q)) || (x.phone && x.phone.includes(q))) { r.push({ username: x.username, role: x.role, is_dev: x.role === 'dev', at_username: x.at_username, phone: x.phone, online: isUserOnline(x.username) }); } } if (r.length === 0) { c.innerHTML = '<div style="padding:12px;color:var(--text-dim);text-align:center;">Не найдено</div>'; c.style.display = 'block'; } else { c.innerHTML = r.map(u => { const avatarUrl = getUserAvatar(u.username); const avHTML = avatarUrl ? `<div class="user-avatar ${u.is_dev?'dev':'user'}" style="width:30px;height:30px;background-image:url('${avatarUrl}');background-size:cover;"></div>` : `<div class="user-avatar ${u.is_dev?'dev':'user'}" style="width:30px;height:30px;font-size:0.75em;">${u.is_dev?'👑':u.username.charAt(0).toUpperCase()}</div>`; return `<div style="padding:10px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.04);" onclick="viewSearchedUser('${escapeHtml(u.username)}')">${avHTML}<div style="flex:1;"><span style="font-size:0.75em;">${escapeHtml(getDisplayName(u.username))}</span>${u.is_dev?'<span class="verified-check" style="width:14px;height:14px;font-size:0.45em;">✓</span>':''}<span style="font-size:0.55em;color:${u.online?'var(--neon-green)':'var(--text-dim)'};margin-left:6px;">${u.online?'● Онлайн':'○ Офлайн'}</span></div></div>`; }).join(''); c.style.display = 'block'; } }
+        function handleSearchInput() { const q = document.getElementById('searchInput').value.toLowerCase().trim(); const c = document.getElementById('searchResults'); if (!q || q.length < 1) { c.style.display = 'none'; c.innerHTML = ''; return; } const u = getUsers(); const r = []; for (const k in u) { if (k === currentUser.toLowerCase()) continue; const x = u[k]; if (x.username.toLowerCase().includes(q) || (x.at_username && x.at_username.toLowerCase().includes(q)) || (x.phone && x.phone.includes(q))) { r.push({ username: x.username, role: x.role, is_dev: x.role === 'dev', at_username: x.at_username, phone: x.phone, online: isUserOnline(x.username) }); } } if (r.length === 0) { c.innerHTML = '<div style="padding:12px;color:var(--text-dim);text-align:center;">Не найдено</div>'; c.style.display = 'block'; } else { c.innerHTML = r.map(u => { const avatarUrl = getUserAvatar(u.username); const avHTML = avatarUrl ? `<div class="user-avatar ${u.is_dev?'dev':'user'}" style="width:28px;height:28px;background-image:url('${avatarUrl}');background-size:cover;"></div>` : `<div class="user-avatar ${u.is_dev?'dev':'user'}" style="width:28px;height:28px;font-size:0.7em;">${u.is_dev?'👑':u.username.charAt(0).toUpperCase()}</div>`; return `<div style="padding:10px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.04);" onclick="viewSearchedUser('${escapeHtml(u.username)}')">${avHTML}<div style="flex:1;"><span style="font-size:0.75em;">${escapeHtml(getDisplayName(u.username))}</span>${u.is_dev?'<span class="verified-check" style="width:12px;height:12px;font-size:0.4em;">✓</span>':''}<span style="font-size:0.55em;color:${u.online?'var(--neon-green)':'var(--text-dim)'};margin-left:4px;">${u.online?'● Онлайн':'○ Офлайн'}</span></div></div>`; }).join(''); c.style.display = 'block'; } }
         function viewSearchedUser(n) { document.getElementById('searchInput').value = ''; document.getElementById('searchResults').style.display = 'none'; document.getElementById('searchResults').innerHTML = ''; showUserProfile(n); }
-        function showUserProfile(n) { if (n === currentUser) { switchTab('profile'); return; } const u = getUsers(); const x = u[n.toLowerCase()]; if (x) { const on = isUserOnline(x.username); alert(`👤 ${getDisplayName(x.username)}\n📱 ${x.phone||'Нет'}\n💬 Сообщений: ${x.total_messages||0}\n📁 Комнат: ${x.rooms_created||0}\n🔗 Подключений: ${x.rooms_joined||0}\n${on?'🟢 Онлайн':'○ Офлайн'}`); } else { showToast('❌ Пользователь не найден', 'error'); } }
 
         function unlockConsole() { if (currentUser !== DEV_NAME) { showToast('❌ Только для разработчика', 'error'); return; } const c = document.getElementById('consoleCodeInput').value.trim(); if (c === CONSOLE_CODE) { consoleUnlocked = true; document.getElementById('consoleMainUI').style.display = 'flex'; document.getElementById('consoleLoginForm').style.display = 'none'; updateConsoleRoomSelect(); startHackerBg(); hackerInterval = setInterval(startHackerBg, 10000); consoleLog('success', '✅ Консоль разблокирована.'); } else { showToast('❌ Неверный код', 'error'); } }
         function lockConsole() { consoleUnlocked = false; document.getElementById('consoleMainUI').style.display = 'none'; document.getElementById('consoleLoginForm').style.display = 'flex'; stopHackerBg(); }
@@ -425,11 +488,62 @@
         function goHome() { document.getElementById('tabNav').style.display = 'flex'; document.getElementById('chatScreen').style.display = 'none'; switchTab('join'); }
         function openChatScreen(isPublic = false) { document.getElementById('tabNav').style.display = 'none'; document.querySelectorAll('#mainAppScreen .tab-content').forEach(c => c.classList.remove('active')); document.getElementById('chatScreen').style.display = 'flex'; document.getElementById('currentRoomName').textContent = `Комната: ${currentRoom} ${isPublic?'🌐':''}`; if (isDev) document.getElementById('devMsgSettingsBtn').style.display = 'inline-flex'; refreshChat(); document.getElementById('messageInput').focus(); }
 
-        function renderMessages(messages) { const area = document.getElementById('messagesArea'); if (!area) return; const wasAtBottom = area.scrollHeight - area.scrollTop - area.clientHeight < 50; area.innerHTML = ''; if (!messages || messages.length === 0) { area.innerHTML = '<div class="system-message">Нет сообщений</div>'; if (wasAtBottom) area.scrollTop = area.scrollHeight; return; } messages.forEach(m => { if (m.type === 'system') { const d = document.createElement('div'); d.className = 'system-message'; d.textContent = m.text; area.appendChild(d); } else { const isMine = m.sender === currentUser; const isCon = m.is_console; const w = document.createElement('div'); w.className = `message-wrapper ${isMine?'sent':'received'}`; const md = document.createElement('div'); let mc = 'message '; if (isMine) mc += 'message-sent'; else if (isCon) mc += 'message-received message-console'; else mc += 'message-received'; md.className = mc; const sDev = m.is_dev; const nc = sDev ? ' dev-name' : (isCon ? ' console-name' : ''); const vi = sDev ? '<span class="verified-check" style="width:12px;height:12px;font-size:0.45em;">✓</span>' : ''; const consoleBadge = isCon ? '<span class="message-sender-badge console">CONSOLE</span>' : ''; const displaySender = isCon ? CONSOLE_USERNAME : getDisplayName(m.sender); const sl = !isMine ? `<div class="message-sender-row"><span class="message-sender-name${nc}">⬡ ${escapeHtml(displaySender)}</span>${vi}${consoleBadge}</div>` : ''; let textHTML = `<div class="message-text">${escapeHtml(m.text)}</div>`; if (isMine && m.custom_style) { const cs = m.custom_style; const animName = 'devMsgGlow_' + m.time; const styleEl = document.createElement('style'); styleEl.textContent = `@keyframes ${animName} { 0%{background-position:0% 50%;filter:drop-shadow(0 0 4px rgba(255,0,0,0.5))} 25%{background-position:100% 0%;filter:drop-shadow(0 0 8px rgba(255,50,50,0.8))} 50%{background-position:100% 100%;filter:drop-shadow(0 0 12px rgba(255,0,0,1))} 75%{background-position:0% 100%;filter:drop-shadow(0 0 8px rgba(255,50,50,0.8))} 100%{background-position:0% 50%;filter:drop-shadow(0 0 4px rgba(255,0,0,0.5))} }`; document.head.appendChild(styleEl); textHTML = `<div class="message-text" style="background:linear-gradient(${cs.angle}, ${cs.color1}, ${cs.color2}, ${cs.color3});background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:${cs.fontWeight};animation:${animName} ${cs.animSpeed}s ease-in-out infinite;">${escapeHtml(m.text)}</div>`; } md.innerHTML = `${sl}${textHTML}<div class="message-meta">${new Date(m.time).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}${isMine?' ✓':''}</div>`; if (!isMine) { const avHTML = getAvatarHTML(m.sender); w.innerHTML = avHTML; } w.appendChild(md); area.appendChild(w); } }); if (wasAtBottom) area.scrollTop = area.scrollHeight; }
+        function renderMessages(messages) {
+            const area = document.getElementById('messagesArea'); if (!area) return;
+            const wasAtBottom = area.scrollHeight - area.scrollTop - area.clientHeight < 50;
+            area.innerHTML = '';
+            if (!messages || messages.length === 0) { area.innerHTML = '<div class="system-message">Нет сообщений</div>'; if (wasAtBottom) area.scrollTop = area.scrollHeight; return; }
+            messages.forEach(m => {
+                if (m.type === 'system') { const d = document.createElement('div'); d.className = 'system-message'; d.textContent = m.text; area.appendChild(d); }
+                else {
+                    const isMine = m.sender === currentUser;
+                    const isCon = m.is_console;
+                    const w = document.createElement('div'); w.className = `message-wrapper ${isMine?'sent':'received'}`;
+                    const md = document.createElement('div');
+                    let mc = 'message ';
+                    if (isMine) mc += 'message-sent';
+                    else if (isCon) mc += 'message-received message-console';
+                    else mc += 'message-received';
+                    md.className = mc;
+                    const sDev = m.is_dev;
+                    const nc = sDev ? ' dev-name' : (isCon ? ' console-name' : '');
+                    const vi = sDev ? '<span class="verified-check" style="width:12px;height:12px;font-size:0.45em;">✓</span>' : '';
+                    const consoleBadge = isCon ? '<span class="message-sender-badge console">CONSOLE</span>' : '';
+                    const displaySender = isCon ? CONSOLE_USERNAME : getDisplayName(m.sender);
+                    const sl = !isMine ? `<div class="message-sender-row"><span class="message-sender-name${nc}">⬡ ${escapeHtml(displaySender)}</span>${vi}${consoleBadge}</div>` : '';
+
+                    let textHTML = `<div class="message-text">${escapeHtml(m.text)}</div>`;
+
+                    // Проверяем кастомный стиль (для своих сообщений И для сообщений разработчика от других)
+                    if (m.custom_style) {
+                        const cs = m.custom_style;
+                        const animName = 'devMsgGlow_' + (m.time || Date.now());
+                        const styleEl = document.createElement('style');
+                        styleEl.textContent = `@keyframes ${animName} { 0%{background-position:0% 50%;filter:drop-shadow(0 0 4px rgba(255,0,0,0.5))} 25%{background-position:100% 0%;filter:drop-shadow(0 0 8px rgba(255,50,50,0.8))} 50%{background-position:100% 100%;filter:drop-shadow(0 0 12px rgba(255,0,0,1))} 75%{background-position:0% 100%;filter:drop-shadow(0 0 8px rgba(255,50,50,0.8))} 100%{background-position:0% 50%;filter:drop-shadow(0 0 4px rgba(255,0,0,0.5))} }`;
+                        document.head.appendChild(styleEl);
+                        textHTML = `<div class="message-text" style="background:linear-gradient(${cs.angle}, ${cs.color1}, ${cs.color2}, ${cs.color3});background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:${cs.fontWeight};animation:${animName} ${cs.animSpeed}s ease-in-out infinite;">${escapeHtml(m.text)}</div>`;
+                    }
+                    // Если это НАШЕ сообщение и мы разработчик — тоже применяем стиль из настроек
+                    else if (isMine && isDev && (devMsgSettings.color1 !== '#ff1a1a' || devMsgSettings.color2 !== '#ff4444' || devMsgSettings.angle !== '135deg' || devMsgSettings.fontWeight !== '700')) {
+                        const s = devMsgSettings;
+                        const animName = 'devMsgGlow_' + (m.time || Date.now());
+                        const styleEl = document.createElement('style');
+                        styleEl.textContent = `@keyframes ${animName} { 0%{background-position:0% 50%;filter:drop-shadow(0 0 4px rgba(255,0,0,0.5))} 25%{background-position:100% 0%;filter:drop-shadow(0 0 8px rgba(255,50,50,0.8))} 50%{background-position:100% 100%;filter:drop-shadow(0 0 12px rgba(255,0,0,1))} 75%{background-position:0% 100%;filter:drop-shadow(0 0 8px rgba(255,50,50,0.8))} 100%{background-position:0% 50%;filter:drop-shadow(0 0 4px rgba(255,0,0,0.5))} }`;
+                        document.head.appendChild(styleEl);
+                        textHTML = `<div class="message-text" style="background:linear-gradient(${s.angle}, ${s.color1}, ${s.color2}, ${s.color3});background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:${s.fontWeight};animation:${animName} ${s.animSpeed}s ease-in-out infinite;">${escapeHtml(m.text)}</div>`;
+                    }
+
+                    md.innerHTML = `${sl}${textHTML}<div class="message-meta">${new Date(m.time).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}${isMine?' ✓':''}</div>`;
+                    if (!isMine) { const avHTML = getAvatarHTML(m.sender); w.innerHTML = avHTML; }
+                    w.appendChild(md); area.appendChild(w);
+                }
+            });
+            if (wasAtBottom) area.scrollTop = area.scrollHeight;
+        }
 
         function updateUserUI() { document.getElementById('displayUsername').textContent = getDisplayName(currentUser); const ctb = document.getElementById('consoleTabBtn'); if (isDev && currentUser === DEV_NAME) ctb.style.display = 'inline-block'; else ctb.style.display = 'none'; const av = document.getElementById('userAvatar'); const avatarUrl = getUserAvatar(currentUser); if (avatarUrl) { av.innerHTML = `<img src="${avatarUrl}" alt="avatar">`; } else { av.innerHTML = isDev ? '👑' : currentUser.charAt(0).toUpperCase(); } av.className = isDev ? 'user-avatar dev' : 'user-avatar user'; if (isDev) { document.getElementById('verifiedCheck').style.display = 'inline-flex'; document.getElementById('userBadge').innerHTML = ''; } else { document.getElementById('verifiedCheck').style.display = 'none'; document.getElementById('userBadge').innerHTML = '<span class="badge badge-user">USER</span>'; } }
 
-        function renderProfile() { const u = getUsers()[currentUser.toLowerCase()]; const a = getActivities(); const ua = (a[currentUser] || []).slice(-10).reverse(); const c = document.getElementById('profileContent'); const avatarUrl = getUserAvatar(currentUser); const displayName = getDisplayName(currentUser); if (u) { const cd = new Date(u.created).toLocaleDateString(); c.innerHTML = `<div style="text-align:center;"><div class="avatar-edit-wrapper" onclick="triggerAvatarUpload()"><div class="user-avatar large ${isDev?'dev':'user'}" style="margin:0 auto;">${avatarUrl?`<img src="${avatarUrl}" style="width:100%;height:100%;object-fit:cover;">`:(isDev?'👑':currentUser.charAt(0).toUpperCase())}</div><div class="avatar-edit-overlay">📷</div></div><div style="display:flex;align-items:center;justify-content:center;gap:4px;margin-top:12px;"><span style="font-family:'Orbitron',monospace;font-size:1.2em;">${escapeHtml(displayName)}</span>${isDev?'<span class="verified-check" style="width:22px;height:22px;font-size:0.65em;">✓</span>':''}${!isDev?'<span class="badge badge-user">USER</span>':''}</div>${isDev?'<div style="margin-top:4px;color:var(--crown-red);font-size:0.75em;">👑 Системный разработчик</div>':''}<div style="color:var(--neon-green);font-size:0.7em;margin-top:6px;">● Онлайн</div>${displayName !== currentUser ? `<div style="color:var(--text-dim);font-size:0.6em;margin-top:4px;">@${escapeHtml(currentUser)}</div>` : ''}</div><div class="profile-stats"><div class="stat-card"><div class="stat-value">${u.total_messages||0}</div><div class="stat-label">Сообщений</div></div><div class="stat-card"><div class="stat-value">${u.rooms_created||0}</div><div class="stat-label">Создано</div></div><div class="stat-card"><div class="stat-value">${u.rooms_joined||0}</div><div class="stat-label">Подключений</div></div></div><div class="profile-info-card"><div class="info-row"><span class="info-label">Имя</span><span class="info-value">${escapeHtml(displayName)}</span></div><div class="info-row"><span class="info-label">Логин</span><span class="info-value">${escapeHtml(currentUser)}</span></div><div class="info-row"><span class="info-label">@Username</span><span class="info-value">${u.at_username||'<span style="color:var(--text-dim);">Не задан</span>'}</span></div><div class="info-row"><span class="info-label">Телефон</span><span class="info-value">${u.phone||'<span style="color:var(--text-dim);">Не задан</span>'}</span></div><div class="info-row"><span class="info-label">Роль</span><span class="info-value">${isDev?'👑 Разработчик':'👤 Пользователь'}</span></div><div class="info-row"><span class="info-label">Дата регистрации</span><span class="info-value">${cd}</span></div></div><div class="activity-log"><h4>📜 Последняя активность</h4>${ua.length===0?'<p style="color:var(--text-dim);font-size:0.65em;">Нет активности</p>':ua.map(a=>{const t=new Date(a.time);return`<div class="activity-item"><span class="act-time">[${t.toLocaleDateString()} ${t.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}]</span> ${escapeHtml(a.action)}: ${escapeHtml(a.detail)}</div>`;}).join('')}</div>`; } }
+        function renderProfile() { document.getElementById('profileContent').innerHTML = buildProfileHTML(currentUser); }
 
         function togglePass(id, icon) { const i = document.getElementById(id); if (i.type === 'password') { i.type = 'text'; icon.textContent = '🙈'; } else { i.type = 'password'; icon.textContent = '👁'; } }
         function escapeHtml(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
