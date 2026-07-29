@@ -1,0 +1,5 @@
+services:
+  - type: web
+    name: runachat-online
+    runtime: static
+    staticPublishPath: .

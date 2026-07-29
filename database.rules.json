@@ -1,0 +1,8 @@
+{
+  "rules": {
+    "runachat": {
+      ".read": true,
+      ".write": true
+    }
+  }
+}
