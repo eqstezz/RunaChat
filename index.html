@@ -138,6 +138,25 @@
             75%{background-position:0% 100%;filter:drop-shadow(0 0 8px rgba(255,50,50,0.8))}
             100%{background-position:0% 50%;filter:drop-shadow(0 0 4px rgba(255,0,0,0.5))}
         }
+        .rgb-nickname {
+            display:inline-block;
+            max-width:100%;
+            color:var(--neon-bright);
+            font-weight:900;
+            background-image:linear-gradient(90deg,var(--nick-rgb-1),var(--nick-rgb-2),var(--nick-rgb-3),var(--nick-rgb-1));
+            background-size:300% 100%;
+            background-repeat:no-repeat;
+            -webkit-background-clip:text;
+            background-clip:text;
+            -webkit-text-fill-color:transparent;
+            animation:nicknameRgbFlow 2.4s linear infinite;
+            filter:drop-shadow(0 0 4px color-mix(in srgb,var(--nick-rgb-1) 70%,transparent));
+        }
+        @keyframes nicknameRgbFlow {
+            0%{background-position:0% 50%;filter:brightness(1) drop-shadow(0 0 3px var(--nick-rgb-1))}
+            50%{background-position:100% 50%;filter:brightness(1.35) drop-shadow(0 0 8px var(--nick-rgb-2))}
+            100%{background-position:0% 50%;filter:brightness(1) drop-shadow(0 0 3px var(--nick-rgb-1))}
+        }
         .message-meta { font-size:0.55em; color:var(--text-dim); text-align:right; }
         .system-message { text-align:center; font-size:0.65em; color:var(--text-dim); padding:5px; }
         .input-area { padding:10px 14px; border-top:1px solid var(--border); display:flex; gap:6px; background:var(--glass); align-items:center; position:relative; }
@@ -450,8 +469,8 @@
             { category: '🛡 Модерация', commands: [{ cmd: 'ban <user> <mins> <reason>', desc: 'Забанить' }, { cmd: 'unban <user>', desc: 'Разбанить' }] },
             { category: '📱 Телефоны', commands: [{ cmd: 'setphone <user> <phone>', desc: 'Назначить номер' }, { cmd: 'nophone <user>', desc: 'Удалить номер' }, { cmd: 'devphone <phone>', desc: 'Сменить номер разр.' }] },
             { category: '🔖 @Username', commands: [{ cmd: 'setusername <user> <@name>', desc: 'Назначить' }, { cmd: 'nousername <user>', desc: 'Удалить' }] },
-            { category: '👤 Профиль', commands: [{ cmd: 'setnick <user> <nick>', desc: 'Сменить ник' }, { cmd: 'setavatar <user> <url>', desc: 'Установить аватар (URL)' }] },
-            { category: '⚙ Управление', commands: [{ cmd: 'stats <user> <field> <val>', desc: 'Статистика' }, { cmd: 'deleteuser <user>', desc: 'Удалить польз.' }, { cmd: 'deleteroom <id>', desc: 'Удалить комнату' }, { cmd: 'cleanup', desc: 'Очистить' }] },
+            { category: '👤 Профиль', commands: [{ cmd: 'setnick <user> <nick>', desc: 'Сменить ник' }, { cmd: '/nickrgb <user> <#цвет>', desc: 'Анимированный цвет ника' }, { cmd: 'setavatar <user> <url>', desc: 'Установить аватар (URL)' }] },
+            { category: '⚙ Управление', commands: [{ cmd: '/dev <user>', desc: 'Назначить разработчиком' }, { cmd: '/undev <user>', desc: 'Снять права разработчика' }, { cmd: 'stats <user> <field> <val>', desc: 'Статистика' }, { cmd: 'deleteuser <user>', desc: 'Удалить польз.' }, { cmd: 'deleteroom <id>', desc: 'Удалить комнату' }, { cmd: 'cleanup', desc: 'Очистить' }] },
             { category: '🖥 Консоль', commands: [{ cmd: 'clear', desc: 'Очистить вывод' }, { cmd: 'lock', desc: 'Заблокировать' }] }
         ];
 
@@ -524,6 +543,16 @@
 
         function refreshFromCloud() {
             if (!appInitialized) return;
+            if (currentUser) {
+                const activeAccount = getUsers()[currentUser.toLowerCase()];
+                const roleIsDev = !!activeAccount && activeAccount.role === 'dev';
+                if (isDev !== roleIsDev) {
+                    isDev = roleIsDev;
+                    if (!isDev && consoleUnlocked) lockConsole();
+                    updateUserUI();
+                    if (!isDev) document.getElementById('devMsgSettingsBtn').style.display = 'none';
+                }
+            }
             if (currentRoom) refreshChat();
             if (currentTab === 'public') refreshPublicRooms();
             if (currentTab === 'profile' && currentUser) renderProfile();
@@ -580,10 +609,17 @@
         function saveAvatars(a) { saveData('avatars', a); }
         function getNicknames() { return loadData('nicknames') || {}; }
         function saveNicknames(n) { saveData('nicknames', n); }
+        function getNicknameColors() { return loadData('nickname_colors') || {}; }
+        function saveNicknameColors(n) { saveData('nickname_colors', n); }
         function getUserAvatar(username) { const avatars = getAvatars(); return avatars[username.toLowerCase()] || null; }
         function setUserAvatar(username, url) { const avatars = getAvatars(); avatars[username.toLowerCase()] = url; saveAvatars(avatars); }
         function getDisplayName(username) { const nicknames = getNicknames(); return nicknames[username.toLowerCase()] || username; }
         function setDisplayName(username, nickname) { const nicknames = getNicknames(); nicknames[username.toLowerCase()] = nickname; saveNicknames(nicknames); }
+        function normalizeHexColor(value) { const v = String(value || '').trim(); return /^#[0-9a-fA-F]{6}$/.test(v) ? v.toUpperCase() : null; }
+        function shiftHexColor(hex, amount) { const n = parseInt(hex.slice(1), 16); const r = Math.max(0, Math.min(255, (n >> 16) + amount)); const g = Math.max(0, Math.min(255, ((n >> 8) & 255) + amount)); const b = Math.max(0, Math.min(255, (n & 255) + amount)); return '#' + [r,g,b].map(x => x.toString(16).padStart(2,'0')).join('').toUpperCase(); }
+        function setNicknameRgb(username, colors) { const all = getNicknameColors(); all[username.toLowerCase()] = colors; saveNicknameColors(all); }
+        function getNicknameRgb(username) { return getNicknameColors()[username.toLowerCase()] || null; }
+        function getDisplayNameHTML(username) { const name = escapeHtml(getDisplayName(username)); const rgb = getNicknameRgb(username); if (!rgb) return name; return `<span class="rgb-nickname" style="--nick-rgb-1:${rgb[0]};--nick-rgb-2:${rgb[1]};--nick-rgb-3:${rgb[2]}">${name}</span>`; }
 
         function triggerAvatarUpload() { document.getElementById('avatarFileInput').click(); }
         function handleAvatarUpload(event) { const file = event.target.files[0]; if (!file) return; if (!file.type.startsWith('image/')) { showToast('❌ Только изображения', 'error'); return; } if (file.size > 500 * 1024) { showToast('❌ Максимум 500KB', 'error'); return; } const reader = new FileReader(); reader.onload = function(e) { setUserAvatar(currentUser, e.target.result); updateUserUI(); if (currentTab === 'profile') renderProfile(); showToast('✅ Аватар обновлён!', 'success'); }; reader.readAsDataURL(file); event.target.value = ''; }
@@ -615,7 +651,7 @@
                 <div style="text-align:center;">
                     <div class="user-avatar large ${isDevU?'dev':'user'}" style="margin:0 auto;">${avatarUrl?`<img src="${avatarUrl}" style="width:100%;height:100%;object-fit:cover;">`:(isDevU?'👑':username.charAt(0).toUpperCase())}</div>
                     <div style="display:flex;align-items:center;justify-content:center;gap:4px;margin-top:10px;">
-                        <span style="font-family:'Orbitron',monospace;font-size:1.2em;">${escapeHtml(displayName)}</span>
+                        <span style="font-family:'Orbitron',monospace;font-size:1.2em;">${getDisplayNameHTML(username)}</span>
                         ${isDevU?'<span class="verified-check">✓</span>':''}
                         ${!isDevU?'<span class="badge badge-user">USER</span>':''}
                     </div>
@@ -704,14 +740,14 @@
 
         function refreshChat() { if (!currentRoom) return; const m = getMessages(); renderMessages(m[currentRoom] || []); }
         function refreshPublicRooms() { const r = getRooms(); const c = document.getElementById('publicRoomsList'); const pr = Object.values(r).filter(x => x.is_public); if (pr.length === 0) { c.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-dim);">🌐 Нет публичных комнат</div>'; return; } c.innerHTML = pr.map(rm => `<div class="public-room-card" onclick="joinPublicRoom('${rm.room_id}')"><div><div style="font-family:'Orbitron',monospace;font-size:0.7em;color:var(--neon-red);">🏠 ${escapeHtml(rm.room_id)}</div><div style="font-size:0.55em;color:var(--text-dim);">от ${escapeHtml(rm.creator)}</div></div><span class="badge badge-public">ОТКРЫТА</span></div>`).join(''); }
-        function handleSearchInput() { const q = document.getElementById('searchInput').value.toLowerCase().trim(); const c = document.getElementById('searchResults'); if (!q || q.length < 1) { c.style.display = 'none'; c.innerHTML = ''; return; } const u = getUsers(); const r = []; for (const k in u) { if (k === currentUser.toLowerCase()) continue; const x = u[k]; if (x.username.toLowerCase().includes(q) || (x.at_username && x.at_username.toLowerCase().includes(q)) || (x.phone && x.phone.includes(q))) { r.push({ username: x.username, role: x.role, is_dev: x.role === 'dev', at_username: x.at_username, phone: x.phone, online: isUserOnline(x.username) }); } } if (r.length === 0) { c.innerHTML = '<div style="padding:12px;color:var(--text-dim);text-align:center;">Не найдено</div>'; c.style.display = 'block'; } else { c.innerHTML = r.map(u => { const avatarUrl = getUserAvatar(u.username); const avHTML = avatarUrl ? `<div class="user-avatar ${u.is_dev?'dev':'user'}" style="width:28px;height:28px;background-image:url('${avatarUrl}');background-size:cover;"></div>` : `<div class="user-avatar ${u.is_dev?'dev':'user'}" style="width:28px;height:28px;font-size:0.7em;">${u.is_dev?'👑':u.username.charAt(0).toUpperCase()}</div>`; return `<div style="padding:10px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.04);" onclick="viewSearchedUser('${escapeHtml(u.username)}')">${avHTML}<div style="flex:1;"><span style="font-size:0.75em;">${escapeHtml(getDisplayName(u.username))}</span>${u.is_dev?'<span class="verified-check" style="width:12px;height:12px;font-size:0.4em;">✓</span>':''}<span style="font-size:0.55em;color:${u.online?'var(--neon-green)':'var(--text-dim)'};margin-left:4px;">${u.online?'● Онлайн':'○ Офлайн'}</span></div></div>`; }).join(''); c.style.display = 'block'; } }
+        function handleSearchInput() { const q = document.getElementById('searchInput').value.toLowerCase().trim(); const c = document.getElementById('searchResults'); if (!q || q.length < 1) { c.style.display = 'none'; c.innerHTML = ''; return; } const u = getUsers(); const r = []; for (const k in u) { if (k === currentUser.toLowerCase()) continue; const x = u[k]; if (x.username.toLowerCase().includes(q) || (x.at_username && x.at_username.toLowerCase().includes(q)) || (x.phone && x.phone.includes(q))) { r.push({ username: x.username, role: x.role, is_dev: x.role === 'dev', at_username: x.at_username, phone: x.phone, online: isUserOnline(x.username) }); } } if (r.length === 0) { c.innerHTML = '<div style="padding:12px;color:var(--text-dim);text-align:center;">Не найдено</div>'; c.style.display = 'block'; } else { c.innerHTML = r.map(u => { const avatarUrl = getUserAvatar(u.username); const avHTML = avatarUrl ? `<div class="user-avatar ${u.is_dev?'dev':'user'}" style="width:28px;height:28px;background-image:url('${avatarUrl}');background-size:cover;"></div>` : `<div class="user-avatar ${u.is_dev?'dev':'user'}" style="width:28px;height:28px;font-size:0.7em;">${u.is_dev?'👑':u.username.charAt(0).toUpperCase()}</div>`; return `<div style="padding:10px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.04);" onclick="viewSearchedUser('${escapeHtml(u.username)}')">${avHTML}<div style="flex:1;"><span style="font-size:0.75em;">${getDisplayNameHTML(u.username)}</span>${u.is_dev?'<span class="verified-check" style="width:12px;height:12px;font-size:0.4em;">✓</span>':''}<span style="font-size:0.55em;color:${u.online?'var(--neon-green)':'var(--text-dim)'};margin-left:4px;">${u.online?'● Онлайн':'○ Офлайн'}</span></div></div>`; }).join(''); c.style.display = 'block'; } }
         function viewSearchedUser(n) { document.getElementById('searchInput').value = ''; document.getElementById('searchResults').style.display = 'none'; document.getElementById('searchResults').innerHTML = ''; showUserProfile(n); }
 
-        function unlockConsole() { if (currentUser !== DEV_NAME) { showToast('❌ Только для разработчика', 'error'); return; } const c = document.getElementById('consoleCodeInput').value.trim(); if (c === CONSOLE_CODE) { consoleUnlocked = true; document.getElementById('consoleMainUI').style.display = 'flex'; document.getElementById('consoleLoginForm').style.display = 'none'; updateConsoleRoomSelect(); startHackerBg(); hackerInterval = setInterval(startHackerBg, 10000); consoleLog('success', '✅ Консоль разблокирована.'); } else { showToast('❌ Неверный код', 'error'); } }
+        function unlockConsole() { if (!isDev) { showToast('❌ Только для разработчика', 'error'); return; } const c = document.getElementById('consoleCodeInput').value.trim(); if (c === CONSOLE_CODE) { consoleUnlocked = true; document.getElementById('consoleMainUI').style.display = 'flex'; document.getElementById('consoleLoginForm').style.display = 'none'; updateConsoleRoomSelect(); startHackerBg(); hackerInterval = setInterval(startHackerBg, 10000); consoleLog('success', '✅ Консоль разблокирована.'); } else { showToast('❌ Неверный код', 'error'); } }
         function lockConsole() { consoleUnlocked = false; document.getElementById('consoleMainUI').style.display = 'none'; document.getElementById('consoleLoginForm').style.display = 'flex'; stopHackerBg(); }
         function consoleLog(type, text) { const o = document.getElementById('consoleOutput'); if (!o) return; const t = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }); const colors = { success: 'var(--neon-green)', error: 'var(--neon-pink)', warn: '#ff8888', info: 'var(--neon-red)', cmd: '#ff6666' }; o.innerHTML += `<div><span style="color:var(--text-dim);">[${t}]</span> <span style="color:${colors[type]||'var(--text)'};">${escapeHtml(text)}</span></div>`; o.scrollTop = o.scrollHeight; }
         function consoleQuickCmd(cmd) { document.getElementById('consoleCmdInput').value = cmd; executeConsoleCommand(); }
-        function executeConsoleCommand() { if (!consoleUnlocked || currentUser !== DEV_NAME) return; const i = document.getElementById('consoleCmdInput'); const cmd = i.value.trim(); if (!cmd) return; consoleLog('cmd', `➤ ${cmd}`); i.value = ''; const p = cmd.split(' '); const a = p[0].toLowerCase(); switch (a) { case 'help': openCommandsModal(); break; case 'say': if (p.length < 2) { consoleLog('error', 'Usage: say <текст>'); break; } sendConsoleMessage(p.slice(1).join(' ')); break; case 'select': if (!p[1]) { consoleLog('error', 'Usage: select <room_id>'); break; } const rk = p[1].toLowerCase(); const rc = getRooms(); if (rc[rk]) { consoleActiveRoom = rk; updateConsoleRoomSelect(); consoleLog('success', `✅ Выбрана комната: ${rk}`); } else { consoleLog('error', `❌ Комната "${rk}" не найдена`); } break;
+        function executeConsoleCommand() { if (!consoleUnlocked || !isDev) return; const i = document.getElementById('consoleCmdInput'); const cmd = i.value.trim(); if (!cmd) return; consoleLog('cmd', `➤ ${cmd}`); i.value = ''; const p = cmd.split(' '); const a = p[0].toLowerCase(); switch (a) { case 'help': openCommandsModal(); break; case 'say': if (p.length < 2) { consoleLog('error', 'Usage: say <текст>'); break; } sendConsoleMessage(p.slice(1).join(' ')); break; case 'select': if (!p[1]) { consoleLog('error', 'Usage: select <room_id>'); break; } const rk = p[1].toLowerCase(); const rc = getRooms(); if (rc[rk]) { consoleActiveRoom = rk; updateConsoleRoomSelect(); consoleLog('success', `✅ Выбрана комната: ${rk}`); } else { consoleLog('error', `❌ Комната "${rk}" не найдена`); } break;
         case 'users': const u = getUsers(); for (const k in u) { const x = u[k]; const on = isUserOnline(x.username); consoleLog('info', `  ${on?'🟢':'○'} ${getDisplayName(x.username)}${x.at_username?' '+x.at_username:''} | Msgs:${x.total_messages||0}`); } break;
         case 'user': if (!p[1]) { consoleLog('error', 'Usage: user <name>'); break; } const xu = getUsers()[p[1].toLowerCase()]; if (!xu) { consoleLog('error', 'Не найден'); break; } consoleLog('info', `━━━ ${getDisplayName(xu.username)} ━━━`); consoleLog('info', `@Username: ${xu.at_username||'Нет'} | Телефон: ${xu.phone||'Нет'}`); consoleLog('info', `Msgs:${xu.total_messages||0} | Created:${xu.rooms_created||0} | Joined:${xu.rooms_joined||0}`); break;
         case 'rooms': const r = getRooms(); for (const k in r) { const rm = r[k]; consoleLog('info', `  ${rm.is_public?'🌐':'🔒'} ${k} | by ${rm.creator}`); } break;
@@ -727,6 +763,51 @@
         case 'devphone': if (!p[1]) { consoleLog('error', 'Usage: devphone <phone>'); break; } const u8 = getUsers(); if (u8[DEV_NAME.toLowerCase()]) { u8[DEV_NAME.toLowerCase()].phone = p[1]; saveUsers(u8); consoleLog('success', `👑 Телефон: ${p[1]}`); } break;
         case 'setusername': if (!p[1] || !p[2]) { consoleLog('error', 'Usage: setusername <user> <@name>'); break; } const at = p[2].startsWith('@') ? p[2] : '@' + p[2]; const u9 = getUsers(); const k9 = p[1].toLowerCase(); if (u9[k9]) { u9[k9].at_username = at; saveUsers(u9); consoleLog('success', `🔖 @Username: ${at}`); } else consoleLog('error', 'Не найден'); break;
         case 'nousername': if (!p[1]) { consoleLog('error', 'Usage: nousername <user>'); break; } const u10 = getUsers(); const k10 = p[1].toLowerCase(); if (u10[k10]) { u10[k10].at_username = null; saveUsers(u10); consoleLog('success', '🔖 @Username удалён'); } else consoleLog('error', 'Не найден'); break;
+        case '/dev':
+        case 'dev': {
+            if (!p[1]) { consoleLog('error', 'Usage: /dev <user>'); break; }
+            const usersDev = getUsers();
+            const devKey = p[1].toLowerCase();
+            if (!usersDev[devKey]) { consoleLog('error', `❌ Пользователь "${p[1]}" не найден`); break; }
+            if (usersDev[devKey].role === 'dev') { consoleLog('warn', `⚠ ${usersDev[devKey].username} уже разработчик`); break; }
+            usersDev[devKey].role = 'dev';
+            saveUsers(usersDev);
+            logActivity(usersDev[devKey].username, 'Права', `Назначен разработчиком пользователем ${currentUser}`);
+            consoleLog('success', `👑 ${usersDev[devKey].username} назначен разработчиком`);
+            break;
+        }
+        case '/undev':
+        case 'undev': {
+            if (!p[1]) { consoleLog('error', 'Usage: /undev <user>'); break; }
+            const usersUndev = getUsers();
+            const undevKey = p[1].toLowerCase();
+            if (!usersUndev[undevKey]) { consoleLog('error', `❌ Пользователь "${p[1]}" не найден`); break; }
+            if (undevKey === DEV_NAME.toLowerCase()) { consoleLog('error', '❌ Нельзя снять права с основного разработчика'); break; }
+            if (usersUndev[undevKey].role !== 'dev') { consoleLog('warn', `⚠ ${usersUndev[undevKey].username} не является разработчиком`); break; }
+            usersUndev[undevKey].role = 'user';
+            saveUsers(usersUndev);
+            logActivity(usersUndev[undevKey].username, 'Права', `Права разработчика сняты пользователем ${currentUser}`);
+            consoleLog('success', `✅ С ${usersUndev[undevKey].username} сняты права разработчика`);
+            break;
+        }
+        case '/nickrgb':
+        case 'nickrgb': {
+            if (!p[1] || !p[2]) { consoleLog('error', 'Usage: /nickrgb <user> <#RRGGBB> [#RRGGBB] [#RRGGBB]'); break; }
+            const targetKey = p[1].toLowerCase();
+            const targetUser = getUsers()[targetKey];
+            if (!targetUser) { consoleLog('error', `❌ Пользователь "${p[1]}" не найден`); break; }
+            const c1 = normalizeHexColor(p[2]);
+            const c2Input = p[3] ? normalizeHexColor(p[3]) : null;
+            const c3Input = p[4] ? normalizeHexColor(p[4]) : null;
+            if (!c1 || (p[3] && !c2Input) || (p[4] && !c3Input)) { consoleLog('error', '❌ Цвет должен быть в формате #RRGGBB'); break; }
+            const colors = [c1, c2Input || shiftHexColor(c1, 55), c3Input || shiftHexColor(c1, -45)];
+            setNicknameRgb(targetUser.username, colors);
+            if (targetUser.username.toLowerCase() === currentUser.toLowerCase()) updateUserUI();
+            if (currentTab === 'profile') renderProfile();
+            if (currentRoom) refreshChat();
+            consoleLog('success', `🌈 RGB-ник для ${targetUser.username}: ${colors.join(' → ')}`);
+            break;
+        }
         case 'setnick': if (!p[1] || !p[2]) { consoleLog('error', 'Usage: setnick <user> <nickname>'); break; } setDisplayName(p[1], p.slice(2).join(' ')); consoleLog('success', `👤 Ник "${p[1]}" → "${p.slice(2).join(' ')}"`); break;
         case 'setavatar': if (!p[1] || !p[2]) { consoleLog('error', 'Usage: setavatar <user> <url>'); break; } setUserAvatar(p[1], p[2]); consoleLog('success', `🖼 Аватар установлен`); break;
         case 'stats': if (!p[1] || !p[2] || p.length < 4) { consoleLog('error', 'Usage: stats <user> <field> <value>'); break; } const u11 = getUsers(); const k11 = p[1].toLowerCase(); if (u11[k11]) { u11[k11][p[2]] = parseInt(p[3]) || 0; saveUsers(u11); consoleLog('success', `📊 ${p[2]} = ${p[3]}`); } else consoleLog('error', 'Не найден'); break;
@@ -766,7 +847,7 @@
                     const vi = sDev ? '<span class="verified-check" style="width:12px;height:12px;font-size:0.45em;">✓</span>' : '';
                     const consoleBadge = isCon ? '<span class="message-sender-badge console">CONSOLE</span>' : '';
                     const displaySender = isCon ? CONSOLE_USERNAME : getDisplayName(m.sender);
-                    const sl = !isMine ? `<div class="message-sender-row"><span class="message-sender-name${nc}">⬡ ${escapeHtml(displaySender)}</span>${vi}${consoleBadge}</div>` : '';
+                    const sl = !isMine ? `<div class="message-sender-row"><span class="message-sender-name${nc}">⬡ ${isCon ? escapeHtml(displaySender) : getDisplayNameHTML(m.sender)}</span>${vi}${consoleBadge}</div>` : '';
 
                     let textHTML = `<div class="message-text">${escapeHtml(m.text)}</div>`;
 
@@ -789,7 +870,7 @@
             if (wasAtBottom) area.scrollTop = area.scrollHeight;
         }
 
-        function updateUserUI() { document.getElementById('displayUsername').textContent = getDisplayName(currentUser); const ctb = document.getElementById('consoleTabBtn'); if (isDev && currentUser === DEV_NAME) ctb.style.display = 'inline-block'; else ctb.style.display = 'none'; const av = document.getElementById('userAvatar'); const avatarUrl = getUserAvatar(currentUser); if (avatarUrl) { av.innerHTML = `<img src="${avatarUrl}" alt="avatar">`; } else { av.innerHTML = isDev ? '👑' : currentUser.charAt(0).toUpperCase(); } av.className = isDev ? 'user-avatar dev' : 'user-avatar user'; if (isDev) { document.getElementById('verifiedCheck').style.display = 'inline-flex'; document.getElementById('userBadge').innerHTML = ''; } else { document.getElementById('verifiedCheck').style.display = 'none'; document.getElementById('userBadge').innerHTML = '<span class="badge badge-user">USER</span>'; } }
+        function updateUserUI() { document.getElementById('displayUsername').innerHTML = getDisplayNameHTML(currentUser); const ctb = document.getElementById('consoleTabBtn'); if (isDev) ctb.style.display = 'inline-block'; else ctb.style.display = 'none'; const av = document.getElementById('userAvatar'); const avatarUrl = getUserAvatar(currentUser); if (avatarUrl) { av.innerHTML = `<img src="${avatarUrl}" alt="avatar">`; } else { av.innerHTML = isDev ? '👑' : currentUser.charAt(0).toUpperCase(); } av.className = isDev ? 'user-avatar dev' : 'user-avatar user'; if (isDev) { document.getElementById('verifiedCheck').style.display = 'inline-flex'; document.getElementById('userBadge').innerHTML = ''; } else { document.getElementById('verifiedCheck').style.display = 'none'; document.getElementById('userBadge').innerHTML = '<span class="badge badge-user">USER</span>'; } }
 
         function renderProfile() { document.getElementById('profileContent').innerHTML = buildProfileHTML(currentUser); }
 
